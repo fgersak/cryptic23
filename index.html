@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Cryptic 23</title>
+
+<style>
+:root {
+  --bg: #eaf3ff;
+  --text: #111;
+  --muted: #6b7280;
+  --border: rgba(17,24,39,0.12);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  display: flex;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  padding: 44px 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.timer {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.puzzle {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 24px 0;
+  padding: 18px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 14px;
+}
+
+.grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.box {
+  width: 44px;
+  height: 52px;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+}
+
+.box.correct {
+  background: #ffd8b1;
+  border-color: #ff9f5a;
+}
+
+button {
+  margin: 6px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+button:nth-of-type(1) { background: rgba(34,197,94,0.7); }
+button:nth-of-type(2) { background: rgba(250,204,21,0.7); }
+button:nth-of-type(3) { background: rgba(236,72,153,0.7); }
+button:nth-of-type(4) { background: rgba(100,180,254,0.8); }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.25);
+}
+
+.modal-content {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Cryptic <span style="color:#6b7280;">23</span></h1>
+  <div class="subtitle">Jedna zagonetka svakih nekoliko sati 🎂</div>
+  <div class="timer" id="timer"></div>
+
+  <div class="puzzle" id="puzzle"></div>
+  <div class="grid" id="grid"></div>
+
+  <div style="margin-top:16px;">
+    <button onclick="showHint('definition')">Definicija</button>
+    <button onclick="showHint('wordplay')">Materijal</button>
+    <button onclick="showHint('indicator')">Indikator</button>
+    <button onclick="checkAnswer()">Provjeri</button>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div id="hintText"></div>
+    <button onclick="closeModal()">Zatvori</button>
+  </div>
+</div>
+
+<script>
+
+// 🔥 SAMO OVO SMO PREBACILI IZ SERVERA
+const puzzles = [
+  {
+    id: 1,
+    text: "Glovo bez vozača nakon zadnjeg na engleskom otoku",
+    answer: "LASTOVO",
+    hints: {
+      definition: "'otok'",
+      wordplay: "'glovo', 'zadnjeg'",
+      indicator: "'bez vozača', 'na engleskom'"
+    }
+  },
+  {
+    id: 2,
+    text: "VRISAK! NEMA ŠTAPA KOD RIJEKE!",
+    answer: "KRK",
+    hints: {
+      definition: "'KOD RIJEKE'",
+      wordplay: "'VRISAK', 'šTAP'",
+      indicator: "'NEMA'"
+    }
+  }
+];
+
+// ⏱️ ISTA LOGIKA
+const INTERVAL = 60 * 1000;
+
+function getCurrentPuzzle() {
+  const now = Date.now();
+  const index = Math.floor(now / INTERVAL) % puzzles.length;
+
+  return {
+    puzzle: puzzles[index],
+    nextChange: (Math.floor(now / INTERVAL) + 1) * INTERVAL
+  };
+}
+
+// 🔥 zamjena za fetch
+function loadPuzzle() {
+  const data = getCurrentPuzzle();
+
+  puzzleData = data.puzzle;
+
+  document.getElementById("puzzle").innerText = puzzleData.text;
+
+  createGrid(puzzleData.answer.length);
+  startTimer(data.nextChange);
+}
+
+let puzzleData;
+let currentIndex = 0;
+
+function createGrid(len) {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  for (let i = 0; i < len; i++) {
+    const input = document.createElement("input");
+    input.className = "box";
+    input.maxLength = 1;
+
+    input.addEventListener("input", (e) => {
+      e.target.value = e.target.value.toUpperCase();
+    });
+
+    grid.appendChild(input);
+  }
+}
+
+function checkAnswer() {
+  const boxes = document.querySelectorAll(".box");
+
+  let user = "";
+  boxes.forEach(b => user += b.value);
+
+  if (user === puzzleData.answer.toUpperCase()) {
+    boxes.forEach(b => b.classList.add("correct"));
+  }
+}
+
+function showHint(type) {
+  document.getElementById("hintText").innerText =
+    puzzleData.hints[type];
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function startTimer(nextTime) {
+  function update() {
+    const diff = nextTime - Date.now();
+
+    const m = Math.floor(diff / 60000);
+    document.getElementById("timer").innerText =
+      `Nova za ${m} min`;
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+loadPuzzle();
+
+</script>
+
+</body>
+</html>
