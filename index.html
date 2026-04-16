@@ -395,15 +395,17 @@ function loadPuzzle() {
 }
 
 function createGrid(answer) {
+  len = answer.length
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
+  currentIndex = 0;
 
-  for (let i = 0; i < answer.length; i++) {
+  for (let i = 0; i < len; i++) {
 
     if (answer[i] === " ") {
       const spacer = document.createElement("div");
-      spacer.style.width = "45px";
-      spacer.style.height = "45px";
+      spacer.style.width = "44px";
+      spacer.style.height = "52px";
       grid.appendChild(spacer);
       continue;
     }
@@ -418,10 +420,10 @@ function createGrid(answer) {
       const boxes = document.querySelectorAll(".box");
       const index = Array.from(boxes).indexOf(input);
 
-      // ➡️ automatski idi na sljedeći prazan
       for (let j = index + 1; j < boxes.length; j++) {
         if (!boxes[j].value) {
-          boxes[j].focus();
+          currentIndex = j;
+          focusBox(j);
           return;
         }
       }
@@ -429,21 +431,20 @@ function createGrid(answer) {
 
     input.addEventListener("keydown", (e) => {
       const boxes = document.querySelectorAll(".box");
-      const index = Array.from(boxes).indexOf(input);
-
+      if (e.key === "Enter") {
+        checkAnswer();
+      }
       if (e.key === "Backspace") {
         if (input.value === "") {
           e.preventDefault();
 
-          if (index > 0) {
-            boxes[index - 1].value = "";
-            boxes[index - 1].focus();
+          let prev = i - 1;
+          if (prev >= 0) {
+            boxes[prev].value = "";
+            currentIndex = prev;
+            focusBox(prev);
           }
         }
-      }
-
-      if (e.key === "Enter") {
-        checkAnswer();
       }
     });
 
