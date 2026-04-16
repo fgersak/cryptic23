@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Birthday Cryptic</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Birthday cryptic</title>
 
 <style>
 :root {
@@ -17,8 +15,10 @@
 
 body {
   margin: 0;
-  font-family: 'Baloo 2', cursive;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
   display: flex;
+  font-family: 'Baloo 2', cursive; 
+
   justify-content: center;
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -49,12 +49,15 @@ h1 {
   margin-bottom: 18px;
 }
 
-/* PUZZLE */
+/* 🧩 PUZZLE BOX */
 .puzzle {
   font-size: 20px;
   line-height: 1.6;
+  font-family: 'Baloo 2', cursive; 
+
   margin: 24px 0;
   padding: 18px;
+
   background: #fff;
   border: 2px solid #000;
   border-radius: 14px;
@@ -66,10 +69,8 @@ h1 {
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  align-items: center;
 }
 
-/* LETTER BOX */
 .box {
   width: 45px;
   height: 45px;
@@ -77,40 +78,88 @@ h1 {
   text-align: center;
   text-transform: uppercase;
 
-  border: 2px solid #5e5e5e;
+  font-family: 'Baloo 2', cursive; 
+
+  border: 2px solid var(--border);
+  border-color: #5e5e5e;
   border-radius: 10px;
 
-  background: white;
   outline: none;
+  background: white;
+
+  transition: all 200ms ease;
 }
 
-/* SPACE */
-.space {
-  width: 45px;
-  height: 45px;
+.box:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+  
 }
 
-/* CORRECT */
+/* 🍑 SUCCESS STATE (NEW!) */
 .box.correct {
-  background: #81fa5cdc;
+  background: #81fa5cdc;   /* breskvasto-narančasta */
+  border-width: 2px;
   border-color: #49792d;
+  color: #111;
 }
 
 /* BUTTONS */
 button {
   margin: 6px;
   padding: 9px 14px;
+
   font-size: 12px;
+  font-weight: 500;
+  font-family: 'Baloo 2', cursive; 
+
+  border-color: #111;
+  border-width: 1px;
   border-radius: 999px;
-  border: 1px solid #111;
+
   cursor: pointer;
+  transition: 150ms;
+  color: #111;
 }
 
-button:nth-of-type(1) { background: rgba(100,180,254,0.8); }
-button:nth-of-type(2) { background: rgba(250,204,21,0.6); }
-button:nth-of-type(3) { background: rgba(236,72,154,0.6); }
-button:nth-of-type(4) { background: rgba(144,254,100,0.8); }
+button:hover {
+  transform: translateY(-1px);
+}
 
+/* hint colors */
+button:nth-of-type(1) {
+  background: rgba(100, 180, 254, 0.8);
+}
+button:nth-of-type(2) {
+  background: rgba(250, 204, 21, 0.6);
+}
+button:nth-of-type(3) {
+  background: rgba(236, 72, 154, 0.6);
+}
+button:nth-of-type(4) {
+  background: rgba(144, 254, 100, 0.8);
+}
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: rgba(255,255,255,0.95);
+  padding: 18px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 360px;
+}
+
+/* SHAKE */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-3px); }
@@ -118,30 +167,45 @@ button:nth-of-type(4) { background: rgba(144,254,100,0.8); }
   75% { transform: translateX(-3px); }
   100% { transform: translateX(0); }
 }
-</style>
-</head>
 
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
 <body>
+
+
+
 
 <div class="container">
 
-<h1>Birthday <span style="color:#6b7280;">Cryptic</span></h1>
-<div class="subtitle">23 zagonetke 🎂</div>
+  <h1>Birthday<span style="color:#6b7280;">Cryptic</span></h1>
+  <div class="subtitle">23 zagonetke umjesto 23 svjećice na torti 🎂</div>
+  <div class="timer" id="timer"></div>
 
-<div class="puzzle" id="puzzle"></div>
+  <div class="puzzle" id="puzzle"></div>
 
-<div class="grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 
-<div>
-  <button onclick="showHint('definition')">Definicija</button>
-  <button onclick="showHint('wordplay')">Materijal</button>
-  <button onclick="showHint('indicator')">Indikator</button>
-  <button onclick="checkAnswer()">Provjeri</button>
+  <div style="margin-top:16px;">
+    <button onclick="showHint('definition')">Definicija</button>
+    <button onclick="showHint('wordplay')">Materijal</button>
+    <button onclick="showHint('indicator')">Indikator</button>
+    <button onclick="checkAnswer()">Provjeri</button>
+  </div>
+
 </div>
 
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div id="hintText"></div>
+    <div style="margin-top:10px;">
+      <button onclick="closeModal()">Zatvori</button>
+    </div>
+  </div>
 </div>
 
 <script>
+
 /* =========================
    PUZZLES (FRONTEND ONLY)
 ========================= */
@@ -431,18 +495,36 @@ function createGrid(answer) {
   inputs[0]?.focus();
 }
 
-/* CHECK */
+/* 💡 HINTS */
+function showHint(type) {
+  document.getElementById("hintText").innerText =
+    puzzleData.hints[type];
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+/* 🧠 CHECK ANSWER (UPDATED + SUCCESS COLOR) */
 function checkAnswer() {
   const boxes = document.querySelectorAll(".box");
 
   let user = "";
   boxes.forEach(b => user += b.value);
 
-  const correct = puzzleData.answer.replace(/\s/g,'').toUpperCase();
+  const correct = puzzleData.answer.replace(/\s/g, "").toUpperCase();
 
   if (user === correct) {
-    boxes.forEach(b => b.classList.add("correct"));
+
+    // 🍑 SUCCESS COLOR STATE
+    boxes.forEach(b => {
+      b.classList.add("correct");
+    });
+
   } else {
+
     boxes.forEach(b => {
       b.style.animation = "shake 0.3s";
       setTimeout(() => b.style.animation = "", 300);
@@ -450,12 +532,25 @@ function checkAnswer() {
   }
 }
 
-/* HINT */
-function showHint(type) {
-  alert(puzzleData.hints[type]);
+/* ⏱ TIMER */
+function startTimer(nextTime) {
+  function update() {
+    const diff = nextTime - Date.now();
+
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById("timer").innerText =
+      `Nova zagonetka za ${h}h ${m}m ${s}s`;
+  }
+
+  update();
+  setInterval(update, 1000);
 }
 
 loadPuzzle();
+
 </script>
 
 </body>
