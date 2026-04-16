@@ -458,16 +458,13 @@ function getCurrentPuzzle() {
 }
 
 
-async function loadPuzzle() {
-  const res = await fetch("http://localhost:3000/api/puzzle");
-  const data = await res.json();
-
-  puzzleData = data.puzzle;
+function loadPuzzle() {
+  const { puzzleData: p, nextChange } = getCurrentPuzzle();
+  puzzleData = p;
 
   document.getElementById("puzzle").innerText = puzzleData.text;
-
   createGrid(puzzleData.answer);
-  startTimer(data.nextChange);
+  startTimer(nextChange);
 }
 
 /* GRID WITH SPACES */
