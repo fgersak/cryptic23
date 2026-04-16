@@ -74,8 +74,8 @@ h1 {
 }
 
 .box {
-  width: 35px;
-  height: 35px;
+  width: min(35px, 6vw);
+  height: min(35px, 6vw);
   font-size: 25px;
   text-align: center;
   text-transform: uppercase;
@@ -187,7 +187,7 @@ let currentIndex = 0;
 const puzzles = [
   {
     id: 1,
-    text: "Glovo bez vozača nakon zadnjeg na engleskom otoku",
+    text: "Glovo bez vozača nakon zadnjeg na engleskom otoku. (7)",
     answer: "LASTOVO",
     hints: {
       definition: "'otok' - rješenje zagonetke će biti nešto što odgovara ovom opisu",
@@ -197,7 +197,7 @@ const puzzles = [
   },
   {
     id: 2,
-    text: "AAAAA! NEMA ŠTAPA KOD RIJEKE!",
+    text: "AAAAA! NEMA ŠTAPA KOD RIJEKE! (3)",
     answer: "KRK",
     hints: {
       definition: "'KOD RIJEKE' - rješenje će biti nešto što je kod rijeke",
@@ -207,7 +207,7 @@ const puzzles = [
   },
   {
     id: 3,
-    text: "Jedan engleski rep u iznenadnom testu u Lisabonu.",
+    text: "Jedan engleski rep u iznenadnom testu u Lisabonu. (3, 8)",
     answer: "One Republic",
     hints: {
       definition: "'u Lisabonu' - rješenje će biti netko ili nešto što smo vidjeli u Lisabonu",
@@ -217,7 +217,7 @@ const puzzles = [
   },
   {
     id: 14,
-    text: "Ana i Filip zbunjeno - 'Ma, oni igraju protiv Hrvatske?'",
+    text: "Ana i Filip zbunjeno - 'Ma, oni igraju protiv Hrvatske?' (6)",
     answer: "Panama",
     hints: {
       definition: "'oni igraju protiv Hrvatske' - rješenje će biti neka reprezentacija s kojom će Hrvatska igrati na svjetskom",
@@ -227,7 +227,7 @@ const puzzles = [
   },
   {
     id: 4,
-    text: "Gepetto se mijenja bez jednog duplića i grli u malom automobilu.",
+    text: "Gepetto se mijenja bez jednog duplića i grli u malom automobilu. (7)",
     answer: "Peugeot",
     hints: {
       definition: "'mali automobil' - rješenje će biti neki mali automobil",
@@ -237,7 +237,7 @@ const puzzles = [
   },
   {
     id: 5,
-    text: "Pas počinje režati kod čudnog ZAVIČAJA bez ravnine.",
+    text: "Pas počinje režati kod čudnog ZAVIČAJA bez ravnine. (8)",
     answer: "Jazavčar",
     hints: {
       definition: "'Pas' - rješenje će biti neki pas",
@@ -247,7 +247,7 @@ const puzzles = [
   },
   {
     id: 6,
-    text: "Lau bacio asa, poludio, cener je prije svega beskonačno s.lada.k",
+    text: "Lau bacio asa, poludio, cener je prije svega beskonačno s.lada.k. (10)",
     answer: "influencer",
     hints: {
       definition: "'s.lada.k' - rješenje će biti nešto što opisuje ladu",
@@ -258,7 +258,7 @@ const puzzles = [
   ,
   {
     id: 7,
-    text: "Prijatna rastava braka kao i ova",
+    text: "Prijatna rastava braka kao i ova. (4)",
     answer: "Kava",
     hints: {
       definition: "'prijatna' - rješenje će biti nešto prijatno",
@@ -268,7 +268,7 @@ const puzzles = [
   },
   {
     id: 8,
-    text: "Ovdje 6. mjesec nema kuka, ali miriše.",
+    text: "Ovdje 6. mjesec nema kuka, ali miriše. (7)",
     answer: "Tulipan",
     hints: {
       definition: "'miriše' - rješenje će biti nešto što miriše",
@@ -278,7 +278,7 @@ const puzzles = [
   },
   {
     id: 9,
-    text: "nemirna voda ulazi u krezubi ako je za na tost.",
+    text: "Nemirna voda ulazi u krezubi ako je za na tost. (7)",
     answer: "Avokado",
     hints: {
       definition: "'za na tost' - rješenje će biti nešto što se maže na tost",
@@ -288,7 +288,7 @@ const puzzles = [
   },
   {
     id: 10,
-    text: "možemo, srce, u manje grljenja",
+    text: "Možemo, srce, u manje grljenja. (7)",
     answer: "maženje",
     hints: {
       definition: "'grljenje' - rješenje će biti nešto slično grljenju",
@@ -299,7 +299,7 @@ const puzzles = [
   ,
   {
     id: 11,
-    text: "Zar unazad optika Vragolasti Denis mijenja s brzinom svjetlosti uspomene s putovanja",
+    text: "Zar unazad optika Vragolasti Denis mijenja s brzinom svjetlosti uspomene s putovanja. (11)",
     answer: "Razglednice",
     hints: {
       definition: "'uspomene s putovanja' - rješenje će biti neka uspomena s putovanja",
@@ -309,7 +309,7 @@ const puzzles = [
   },
   {
     id: 12,
-    text: "Kako pojesti veznik za staviti u mlijeko",
+    text: "Kako pojesti veznik za staviti u mlijeko? (5)",
     answer: "Kakao",
     hints: {
       definition: "'za staviti u mlijeko' - rješenje će biti nešto što se stavlja u mlijeko",
@@ -319,7 +319,7 @@ const puzzles = [
   },
   {
     id: 13,
-    text: "Trening šest gemova unazad iza ludih lipa",
+    text: "Trening šest gemova unazad iza ludih lipa. (7)",
     answer: "Pilates",
     hints: {
       definition: "'Trening' - rješenje će biti neka vrsta treninga",
@@ -329,7 +329,7 @@ const puzzles = [
   },
   {
     id: 15,
-    text: "Serija se sad po Leonu počinje cijediti u rane",
+    text: "Serija se sad po Leonu počinje cijediti u rane. (9)",
     answer: "Severance",
     hints: {
       definition: "'serija' - rješenje će biti ime neke serije",
@@ -339,7 +339,7 @@ const puzzles = [
   },
   {
     id: 16,
-    text: "Vrati se tip, e, policija zapljeni prvo pivo od dvoje starčeka s Cvjetnog",
+    text: "Vrati se tip, e, policija zapljeni prvo pivo od dvoje starčeka s Cvjetnog. (8, 3)",
     answer: "Piterija Ivo",
     hints: {
       definition: "'od dvoje starčeka s cvjetnog' - rješenje će biti nešto u vlasništvu dvoje starčeka na Cvjetnom",
@@ -349,7 +349,7 @@ const puzzles = [
   },
   {
     id: 17,
-    text: "Pleše, tanca, igra!",
+    text: "Pleše, tanca, igra! (5)",
     answer: "Catan",
     hints: {
       definition: "'igra' - rješenje će biti neka igra",
@@ -359,7 +359,7 @@ const puzzles = [
   },
   {
     id: 18,
-    text: "Poziv za Filipa šatro šumi",
+    text: "Poziv za Filipa šatro šumi. (4)",
     answer: "Mišu",
     hints: {
       definition: "'poziv za Filipa' - rješenje će biti način za pozvati Filipa",
@@ -369,7 +369,7 @@ const puzzles = [
   },
   {
     id: 19,
-    text: "Druženja ovdje prije početaka vrlo intenzivne zajebancije,",
+    text: "Druženja ovdje prije početaka vrlo intenzivne zajebancije. (6)",
     answer: "Tukviz",
     hints: {
       definition: "'druženje' - rješenje će biti neki oblik druženja",
@@ -379,7 +379,7 @@ const puzzles = [
   },
   {
     id: 20,
-    text: "Čuje se Trash, a Tea igra karte",
+    text: "Čuje se Trash, a Tea igra karte. (7)",
     answer: "Trešeta",
     hints: {
       definition: "'Karte' - rješenje će biti neke karte",
@@ -389,7 +389,7 @@ const puzzles = [
   },
   {
     id: 22,
-    text: "Pavuša pije veliko pivo",
+    text: "Pavuša pije veliko pivo. (7)",
     answer: "Plavuša",
     hints: {
       definition: "'pivo' - rješenje će biti neka piva",
@@ -399,7 +399,7 @@ const puzzles = [
   },
   {
     id: 21,
-    text: "Slick ima djevojke koje ne znaju preskakti ogradu.",
+    text: "Slick ima djevojke koje ne znaju preskakti ogradu. (3)",
     answer: "Ick",
     hints: {
       definition: "'Djevojke koje ne znaju preskakati ogradu' - rješenje će biti ",
@@ -409,7 +409,7 @@ const puzzles = [
   },
   {
     id: 23,
-    text: "Anina i Ninina prva trojka bježi na klizanju.",
+    text: "Anina i Ninina prva trojka bježi na klizanju. (2, 3)",
     answer: "Za nju",
     hints: {
       definition: "'Ninina i Anina' - rješenje će biti nešto Ninino i Anino",
