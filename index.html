@@ -457,6 +457,19 @@ function getCurrentPuzzle() {
   };
 }
 
+
+async function loadPuzzle() {
+  const res = await fetch("http://localhost:3000/api/puzzle");
+  const data = await res.json();
+
+  puzzleData = data.puzzle;
+
+  document.getElementById("puzzle").innerText = puzzleData.text;
+
+  createGrid(puzzleData.answer);
+  startTimer(data.nextChange);
+}
+
 /* GRID WITH SPACES */
 function createGrid(answer) {
   const grid = document.getElementById("grid");
