@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Cryptic 23</title>
+<title>Birthday cryptic</title>
 
 <style>
 :root {
@@ -17,8 +17,11 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
   display: flex;
+  font-family: 'Baloo 2', cursive; 
+
   justify-content: center;
   background: var(--bg);
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -29,7 +32,7 @@ body {
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -46,16 +49,21 @@ h1 {
   margin-bottom: 18px;
 }
 
+/* 🧩 PUZZLE BOX */
 .puzzle {
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.6;
+  font-family: 'Baloo 2', cursive; 
+
   margin: 24px 0;
   padding: 18px;
+
   background: #fff;
   border: 2px solid #000;
   border-radius: 14px;
 }
 
+/* GRID */
 .grid {
   display: flex;
   justify-content: center;
@@ -64,34 +72,74 @@ h1 {
 }
 
 .box {
-  width: 44px;
-  height: 52px;
-  font-size: 16px;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
   text-align: center;
   text-transform: uppercase;
-  border: 1px solid var(--border);
+
+  font-family: 'Baloo 2', cursive; 
+
+  border: 2px solid var(--border);
+  border-color: #5e5e5e;
   border-radius: 10px;
+
+  outline: none;
   background: white;
+
+  transition: all 200ms ease;
 }
 
+.box:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+  
+}
+
+/* 🍑 SUCCESS STATE (NEW!) */
 .box.correct {
-  background: #ffd8b1;
-  border-color: #ff9f5a;
+  background: #81fa5c;   /* breskvasto-narančasta */
+  border-width: 2px;
+  border-color: #49792d;
+  color: #111;
 }
 
 button {
   margin: 6px;
   padding: 9px 14px;
+
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Baloo 2', cursive; 
+
+  border-color: #111;
+  border-width: 1px;
   border-radius: 999px;
-  border: none;
+
   cursor: pointer;
+  transition: 150ms;
+  color: #111;
 }
 
-button:nth-of-type(1) { background: rgba(34,197,94,0.7); }
-button:nth-of-type(2) { background: rgba(250,204,21,0.7); }
-button:nth-of-type(3) { background: rgba(236,72,153,0.7); }
-button:nth-of-type(4) { background: rgba(100,180,254,0.8); }
+button:hover {
+  transform: translateY(-1px);
+}
 
+/* hint colors */
+button:nth-of-type(1) {
+  background: rgba(100, 180, 254, 0.8);
+}
+button:nth-of-type(2) {
+  background: rgba(250, 204, 21, 0.6);
+}
+button:nth-of-type(3) {
+  background: rgba(236, 72, 154, 0.6);
+}
+button:nth-of-type(4) {
+  background: rgba(144, 254, 100, 0.8);
+}
+/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
@@ -99,26 +147,41 @@ button:nth-of-type(4) { background: rgba(100,180,254,0.8); }
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
 }
 
 .modal-content {
-  background: white;
+  background: rgba(255,255,255,0.95);
   padding: 18px;
   border-radius: 14px;
+  width: 90%;
+  max-width: 360px;
+}
+
+/* SHAKE */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
 }
 
 </style>
-</head>
-
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
 <body>
+
+
+
 
 <div class="container">
 
-  <h1>Cryptic <span style="color:#6b7280;">23</span></h1>
-  <div class="subtitle">Jedna zagonetka svakih nekoliko sati 🎂</div>
+  <h1>Birthday<span style="color:#6b7280;">Cryptic</span></h1>
+  <div class="subtitle">23 zagonetke umjesto 23 svjećice na torti 🎂</div>
   <div class="timer" id="timer"></div>
 
   <div class="puzzle" id="puzzle"></div>
+
   <div class="grid" id="grid"></div>
 
   <div style="margin-top:16px;">
@@ -130,49 +193,263 @@ button:nth-of-type(4) { background: rgba(100,180,254,0.8); }
 
 </div>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div id="hintText"></div>
-    <button onclick="closeModal()">Zatvori</button>
+    <div style="margin-top:10px;">
+      <button onclick="closeModal()">Zatvori</button>
+    </div>
   </div>
 </div>
 
 <script>
 
-// 🔥 SAMO OVO SMO PREBACILI IZ SERVERA
 const puzzles = [
   {
     id: 1,
     text: "Glovo bez vozača nakon zadnjeg na engleskom otoku",
     answer: "LASTOVO",
     hints: {
-      definition: "'otok'",
-      wordplay: "'glovo', 'zadnjeg'",
-      indicator: "'bez vozača', 'na engleskom'"
+      definition: "'otok' - rješenje zagonetke će biti nešto što odgovara ovom opisu",
+      wordplay: "'glovo', 'zadnjeg' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'bez vozača', 'na engleskom' - 'bez vozača' ukazuje da biste iz susjedne riječi trebali maknuti prvi dio, a 'na engleskom' znači da trebate prevesti riječ na drugi jezik"
     }
   },
   {
     id: 2,
-    text: "VRISAK! NEMA ŠTAPA KOD RIJEKE!",
+    text: "AAAAA! NEMA ŠTAPA KOD RIJEKE!",
     answer: "KRK",
     hints: {
-      definition: "'KOD RIJEKE'",
-      wordplay: "'VRISAK', 'šTAP'",
-      indicator: "'NEMA'"
+      definition: "'KOD RIJEKE' - rješenje će biti nešto što je kod rijeke",
+      wordplay: "'AAAAA', 'ŠTAP' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'NEMA' - ovaj indikator upućuje na to kako biste trebali maknuti nešto iz nečega"
+    }
+  },
+  {
+    id: 3,
+    text: "Ana i Filip zbunjeno - 'Ma, oni igraju protiv Hrvatske?'",
+    answer: "Panama",
+    hints: {
+      definition: "'oni igraju protiv Hrvatske' - rješenje će biti neka reprezentacija s kojom će Hrvatska igrati na svjetskom",
+      wordplay: "'Ana', 'F', 'p', 'Ma' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'zbunjeno', 'ili' - jedan od indikatora upućuje na to kako ćete trebati birati između dvije stvari pored njega, a drugi je indikator anagrama koji govori kako nešto trebate ispremetati."
+    }
+  },
+  {
+    id: 4,
+    text: "Gepetto se mijenja bez jednog duplića i grli u malom automobilu.",
+    answer: "Peugeot",
+    hints: {
+      definition: "'mali automobil' - rješenje će biti neki mali automobil",
+      wordplay: "'Gepetto', 'u' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'se mijenja' - anagram indikator\n'bez' - treba izbaciti nešto iz nečega točnije samo jedno slovo\n'grli' - neka stvar se treba staviti unutar druge\n'duplića' - odnosi se na dupla slova unutar riječi"
+    }
+  },
+  {
+    id: 5,
+    text: "Pas počinje režati kod čudnog ZAVIČAJA bez ravnine.",
+    answer: "Jazavčar",
+    hints: {
+      definition: "'Pas' - rješenje će biti neki pas",
+      wordplay: "'ZAVIČAJA', 'ravnine', 'režati' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'počinje' - morat ćete uzeti početak neke riječi\n'bez' - treba izbaciti nešto iz nečega\n'čudnog' - anagram indikator"
+    }
+  },
+  {
+    id: 6,
+    text: "Lau bacio asa, poludio, cener je prije svega beskonačno s.lada.k",
+    answer: "influencer",
+    hints: {
+      definition: "'s.lada.k' - rješenje će biti nešto što opisuje ladu",
+      wordplay: "'asa', 'Lau', 'cener', 'beskonačno' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'prije svega' - stavljanje susjedne riječi na početak rješenja\n'poludio' - anagram indikator\n'bacio' - izbacivanje nekog ili nekih slova"
+    }
+  }
+  ,
+  {
+    id: 7,
+    text: "Prijatna rastava braka kao i ova",
+    answer: "Kava",
+    hints: {
+      definition: "'prijatna' - rješenje će biti nešto prijatno",
+      wordplay: "'kao', 'ova' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'rastava braka' - malo nategnuto al neke zagonetke moraju biti teže, rastava asocira da dvije riječi gube svoje 'prstenje'"
+    }
+  },
+  {
+    id: 8,
+    text: "Ovdje 6. mjesec nema kuka, ali miriše.",
+    answer: "Tulipan",
+    hints: {
+      definition: "'miriše' - rješenje će biti nešto što miriše",
+      wordplay: "'ovdje', '6. mjesec', 'kuka' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'nema' - morat ćete izbaciti nešto iz nečega"
+    }
+  },
+  {
+    id: 9,
+    text: "nemirna voda ulazi u krezubi ako je za na tost.",
+    answer: "Avokado",
+    hints: {
+      definition: "'za na tost' - rješenje će biti nešto što se maže na tost",
+      wordplay: "'voda', 'ako' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'nemorna' - anagram indikator\n'ulazi' - nešto bi trebalo ući u nešto drugo\n'krezubi' - kako bi vidjeli i ubacili drugi materijal morat ćete razdvojiti slova i ubaciti materijal u rupe"
+    }
+  },
+  {
+    id: 10,
+    text: "možemo, srce, u manje grljenja",
+    answer: "maženje",
+    hints: {
+      definition: "'grljenje' - rješenje će biti nešto slično grljenju",
+      wordplay: "'možemo', 'manje' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'srce' - trebat ćete uzeti sredinu riječi\n'u' - ubacite neki materijal u neki"
+    }
+  }
+  ,
+  {
+    id: 11,
+    text: "Zar unazad optika Vragolasti Denis mijenja s brzinom svjetlosti uspomene s putovanja",
+    answer: "Razglednice",
+    hints: {
+      definition: "'uspomene s putovanja' - rješenje će biti neka uspomena s putovanja",
+      wordplay: "'zar', 'optika', 'Denis', 's', 'brzimon svjetlosti' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'unazad' - trebat ćete obrnuti susjedni materijal\n'Vragolasti' - anagram indikator\n'mijenja' - neka slova ili slovo susjedne riječi treba zamijeniti nečim drugim"
+    }
+  },
+  {
+    id: 12,
+    text: "Kako pojesti veznik za staviti u mlijeko",
+    answer: "Kakao",
+    hints: {
+      definition: "'za staviti u mlijeko' - rješenje će biti nešto što se stavlja u mlijeko",
+      wordplay: "'kako', 'veznik' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'pojesti' - neki materijal treba ubaciti u neki drugi"
+    }
+  },
+  {
+    id: 13,
+    text: "Trening šest gemova unazad iza ludih lipa",
+    answer: "Pilates",
+    hints: {
+      definition: "'Trening' - rješenje će biti neka vrsta treninga",
+      wordplay: "'šest gemova', 'lipa' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'unazad' - reversal indikator\n'iza' - treba zamijeniti redoslijed slaganja materijala\n'ludih' - anagram indikator"
+    }
+  },
+  {
+    id: 14,
+    text: "Jedan engleski rep u iznenadnom testu u Lisabonu.",
+    answer: "One Republic",
+    hints: {
+      definition: "'u Lisabonu' - rješenje će biti netko ili nešto što smo vidjeli u Lisabonu",
+      wordplay: "'jedan', 'rep', 'u', 'iznenadni test' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'engleski' - treba prevesti riječ na drugi jezik"
+    }
+  },
+  {
+    id: 15,
+    text: "Serija se sad po Leonu počinje cijediti u rane",
+    answer: "Severance",
+    hints: {
+      definition: "'serija' - rješenje će biti ime neke serije",
+      wordplay: "'se', 'sad', 'cijediti', 'rane' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'po Leonu' - moglo bi se reći i 'po zagorski jer trebate riječ prebaciti na drugi dijalekt\n'počinje' - morat ćete uzeti prvo slovo susjedne riječi\n'u' - ubacivanje jednog materijala u drugi"
+    }
+  },
+  {
+    id: 16,
+    text: "Vrati se tip, e, policija zapljeni prvo pivo od dvoje starčeka s Cvjetnog",
+    answer: "Piterija Ivo",
+    hints: {
+      definition: "'od dvoje starčeka s cvjetnog' - rješenje će biti nešto u vlasništvu dvoje starčeka na Cvjetnom",
+      wordplay: "'tip', 'e', 'policija', 'pivo' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'Vrati se' - reversal indikator\n'zapljeni' - neka slova se trebaju izbrisati iz neke riječi"
+    }
+  },
+  {
+    id: 17,
+    text: "Pleše, tanca, igra!",
+    answer: "Catan",
+    hints: {
+      definition: "'igra' - rješenje će biti neka igra",
+      wordplay: "'tanca' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'pleše' - anagram indikator"
+    }
+  },
+  {
+    id: 18,
+    text: "Poziv za Filipa šatro šumi",
+    answer: "Mišu",
+    hints: {
+      definition: "'poziv za Filipa' - rješenje će biti način za pozvati Filipa",
+      wordplay: "'Šumi' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'šatro' - u duhu šatrovačkog dijalekta treba ispremetati susjednu riječ"
+    }
+  },
+  {
+    id: 19,
+    text: "Druženja ovdje prije početaka vrlo intenzivne zajebancije,",
+    answer: "Tukviz",
+    hints: {
+      definition: "'druženje' - rješenje će biti neki oblik druženja",
+      wordplay: "'ovdje', 'vrlo intenzivne zajebancije' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'prije' - neki materijali idu ispred drugih\n'početaka' - treba uzeti početna slova nekih riječi"
+    }
+  },
+  {
+    id: 20,
+    text: "Čuje se Trash, a Tea igra karte",
+    answer: "Trešeta",
+    hints: {
+      definition: "'Karte' - rješenje će biti neke karte",
+      wordplay: "'Trash', 'Tea' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'čuje se' - morat ćete izgovoriti susjednu riječ kako biste mogli smisliti njenu zamjenu\n'igra - anagram indikator"
+    }
+  },
+  {
+    id: 23,
+    text: "Anina i Ninina prva trojka bježi na klizanju.",
+    answer: "Za nju",
+    hints: {
+      definition: "'Ninina i Anina' - rješenje će biti nešto Ninino i Anino",
+      wordplay: "''klizanju' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'prva trojka' - prva tri slova riječi, 'bježi' - neka će slova izaći iz neke riječi"
+    }
+  },
+  {
+    id: 22,
+    text: "Pavuša pije veliko pivo",
+    answer: "Plavuša",
+    hints: {
+      definition: "'pivo' - rješenje će biti neka piva",
+      wordplay: "'Pavuša', 'veliku' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'pije' - trebat ćete ubaciti neki materijal u neki drugi"
+    }
+  },
+  {
+    id: 21,
+    text: "Slick ima djevojke koje ne znaju preskakti ogradu.",
+    answer: "Ick",
+    hints: {
+      definition: "'Djevojke koje ne znaju preskakati ogradu' - rješenje će biti ",
+      wordplay: "'Slick' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'ima' - containing indikator"
     }
   }
 ];
 
-// ⏱️ ISTA LOGIKA
-const INTERVAL = 60 * 1000;
+const INTERVAL = 6 * 60 * 60 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const index = Math.floor(now / INTERVAL) % puzzles.length;
+  const ref = new Date(2026, 3, 16, 0, 0, 0).getTime();
+  const index = Math.floor((now - ref) / INTERVAL) % 20;
 
   return {
     puzzle: puzzles[index],
-    nextChange: (Math.floor(now / INTERVAL) + 1) * INTERVAL
+    nextChange: (Math.floor((now - ref) / INTERVAL) + 1) * INTERVAL + ref
   };
 }
 
