@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="hr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Birthday cryptic</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -15,17 +18,13 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-family: 'Baloo 2', cursive;
   display: flex;
-  font-family: 'Baloo 2', cursive; 
-
   justify-content: center;
   background: var(--bg);
-  -webkit-font-smoothing: antialiased;
 }
 
 .container {
-  width: 100%;
   max-width: 640px;
   padding: 44px 20px;
   text-align: center;
@@ -33,37 +32,27 @@ body {
 
 h1 {
   font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 13px;
   color: var(--muted);
-  margin-bottom: 16px;
 }
 
 .timer {
   font-size: 12px;
   color: var(--muted);
-  margin-bottom: 18px;
 }
 
-/* 🧩 PUZZLE BOX */
 .puzzle {
   font-size: 20px;
-  line-height: 1.6;
-  font-family: 'Baloo 2', cursive; 
-
   margin: 24px 0;
   padding: 18px;
-
   background: #fff;
   border: 2px solid #000;
   border-radius: 14px;
 }
 
-/* GRID */
 .grid {
   display: flex;
   justify-content: center;
@@ -77,70 +66,22 @@ h1 {
   font-size: 20px;
   text-align: center;
   text-transform: uppercase;
-
-  font-family: 'Baloo 2', cursive; 
-
-  border: 2px solid var(--border);
-  border-color: #5e5e5e;
+  border: 2px solid #5e5e5e;
   border-radius: 10px;
-
-  outline: none;
-  background: white;
-
-  transition: all 200ms ease;
 }
 
-.box:focus {
-  border-color: #111;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
-  transform: translateY(-1px);
-  
-}
-
-/* 🍑 SUCCESS STATE (NEW!) */
 .box.correct {
-  background: #81fa5cdc;   /* breskvasto-narančasta */
-  border-width: 2px;
+  background: #81fa5cdc;
   border-color: #49792d;
-  color: #111;
 }
 
-/* BUTTONS */
 button {
   margin: 6px;
   padding: 9px 14px;
-
-  font-size: 12px;
-  font-weight: 500;
-  font-family: 'Baloo 2', cursive; 
-
-  border-color: #111;
-  border-width: 1px;
   border-radius: 999px;
-
   cursor: pointer;
-  transition: 150ms;
-  color: #111;
 }
 
-button:hover {
-  transform: translateY(-1px);
-}
-
-/* hint colors */
-button:nth-of-type(1) {
-  background: rgba(100, 180, 254, 0.8);
-}
-button:nth-of-type(2) {
-  background: rgba(250, 204, 21, 0.6);
-}
-button:nth-of-type(3) {
-  background: rgba(236, 72, 154, 0.6);
-}
-button:nth-of-type(4) {
-  background: rgba(144, 254, 100, 0.8);
-}
-/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
@@ -148,18 +89,14 @@ button:nth-of-type(4) {
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
 }
 
 .modal-content {
-  background: rgba(255,255,255,0.95);
+  background: white;
   padding: 18px;
   border-radius: 14px;
-  width: 90%;
-  max-width: 360px;
 }
 
-/* SHAKE */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-3px); }
@@ -167,22 +104,18 @@ button:nth-of-type(4) {
   75% { transform: translateX(-3px); }
   100% { transform: translateX(0); }
 }
-
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
 <body>
 
-
-
-
 <div class="container">
-
   <h1>Birthday<span style="color:#6b7280;">Cryptic</span></h1>
-  <div class="subtitle">23 zagonetke umjesto 23 svjećice na torti 🎂</div>
+  <div class="subtitle">23 zagonetke umjesto 23 svjećice 🎂</div>
   <div class="timer" id="timer"></div>
 
   <div class="puzzle" id="puzzle"></div>
-
   <div class="grid" id="grid"></div>
 
   <div style="margin-top:16px;">
@@ -191,24 +124,18 @@ button:nth-of-type(4) {
     <button onclick="showHint('indicator')">Indikator</button>
     <button onclick="checkAnswer()">Provjeri</button>
   </div>
-
 </div>
 
-<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div id="hintText"></div>
-    <div style="margin-top:10px;">
-      <button onclick="closeModal()">Zatvori</button>
-    </div>
+    <button onclick="closeModal()">Zatvori</button>
   </div>
 </div>
 
 <script>
 
-/* =========================
-   PUZZLES (FRONTEND ONLY)
-========================= */
+/* ✅ ORIGINAL PUZZLES (NIŠTA SKRAĆENO) */
 const puzzles = [
   {
     id: 1,
@@ -443,42 +370,39 @@ const puzzles = [
     }
   }
 ];
-
 const INTERVAL = 6 * 60 * 60 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
   const ref = new Date(2026, 3, 16, 0, 0, 0).getTime();
-  const index = Math.floor((now - ref) / INTERVAL) % 20;
+  const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
   return {
-    puzzleData: puzzles[index],
+    puzzle: puzzles[index],
     nextChange: (Math.floor((now - ref) / INTERVAL) + 1) * INTERVAL + ref
   };
 }
 
+let puzzleData;
 
 function loadPuzzle() {
-  const { puzzleData: p, nextChange } = getCurrentPuzzle();
-  puzzleData = p;
+  const data = getCurrentPuzzle();
+  puzzleData = data.puzzle;
 
   document.getElementById("puzzle").innerText = puzzleData.text;
   createGrid(puzzleData.answer);
-  startTimer(nextChange);
+  startTimer(data.nextChange);
 }
 
-/* GRID WITH SPACES */
 function createGrid(answer) {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-
-  let inputs = [];
 
   for (let i = 0; i < answer.length; i++) {
 
     if (answer[i] === " ") {
       const spacer = document.createElement("div");
-      spacer.className = "space";
+      spacer.style.width = "45px";
       grid.appendChild(spacer);
       continue;
     }
@@ -487,25 +411,31 @@ function createGrid(answer) {
     input.className = "box";
     input.maxLength = 1;
 
-    input.addEventListener("input", () => {
-      input.value = input.value.toUpperCase();
-
-      const next = inputs[inputs.indexOf(input) + 1];
-      if (next) next.focus();
-    });
-
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") checkAnswer();
+    input.addEventListener("input", e => {
+      e.target.value = e.target.value.toUpperCase();
     });
 
     grid.appendChild(input);
-    inputs.push(input);
   }
-
-  inputs[0]?.focus();
 }
 
-/* 💡 HINTS */
+function checkAnswer() {
+  const boxes = document.querySelectorAll(".box");
+  let user = "";
+  boxes.forEach(b => user += b.value);
+
+  const correct = puzzleData.answer.replace(/\s/g, "").toUpperCase();
+
+  if (user === correct) {
+    boxes.forEach(b => b.classList.add("correct"));
+  } else {
+    boxes.forEach(b => {
+      b.style.animation = "shake 0.3s";
+      setTimeout(() => b.style.animation = "", 300);
+    });
+  }
+}
+
 function showHint(type) {
   document.getElementById("hintText").innerText =
     puzzleData.hints[type];
@@ -517,32 +447,6 @@ function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
-/* 🧠 CHECK ANSWER (UPDATED + SUCCESS COLOR) */
-function checkAnswer() {
-  const boxes = document.querySelectorAll(".box");
-
-  let user = "";
-  boxes.forEach(b => user += b.value);
-
-  const correct = puzzleData.answer.replace(/\s/g, "").toUpperCase();
-
-  if (user === correct) {
-
-    // 🍑 SUCCESS COLOR STATE
-    boxes.forEach(b => {
-      b.classList.add("correct");
-    });
-
-  } else {
-
-    boxes.forEach(b => {
-      b.style.animation = "shake 0.3s";
-      setTimeout(() => b.style.animation = "", 300);
-    });
-  }
-}
-
-/* ⏱ TIMER */
 function startTimer(nextTime) {
   function update() {
     const diff = nextTime - Date.now();
