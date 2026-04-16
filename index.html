@@ -395,12 +395,11 @@ function loadPuzzle() {
 }
 
 function createGrid(answer) {
-  len = answer.length
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
   currentIndex = 0;
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < answer.length; i++) {
 
     if (answer[i] === " ") {
       const spacer = document.createElement("div");
@@ -420,29 +419,29 @@ function createGrid(answer) {
       const boxes = document.querySelectorAll(".box");
       const index = Array.from(boxes).indexOf(input);
 
-      for (let j = index + 1; j < boxes.length; j++) {
-        if (!boxes[j].value) {
-          currentIndex = j;
-          focusBox(j);
-          return;
-        }
+      // 👉 idi na sljedeći
+      if (index < boxes.length - 1) {
+        currentIndex = index + 1;
+        focusBox(currentIndex);
       }
     });
 
     input.addEventListener("keydown", (e) => {
       const boxes = document.querySelectorAll(".box");
+      const index = Array.from(boxes).indexOf(input);
+
       if (e.key === "Enter") {
         checkAnswer();
       }
+
       if (e.key === "Backspace") {
         if (input.value === "") {
           e.preventDefault();
 
-          let prev = i - 1;
-          if (prev >= 0) {
-            boxes[prev].value = "";
-            currentIndex = prev;
-            focusBox(prev);
+          if (index > 0) {
+            boxes[index - 1].value = "";
+            currentIndex = index - 1;
+            focusBox(currentIndex);
           }
         }
       }
@@ -451,9 +450,15 @@ function createGrid(answer) {
     grid.appendChild(input);
   }
 
-  // fokus na prvi
-  const first = document.querySelector(".box");
-  if (first) first.focus();
+  focusBox(0);
+}
+
+function focusBox(i) {
+  const boxes = document.querySelectorAll(".box");
+
+  if (boxes[i]) {
+    boxes[i].focus({ preventScroll: true });
+  }
 }
 
 function checkAnswer() {
