@@ -424,7 +424,7 @@ const INTERVAL = 6 * 60 * 60 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 16).getTime();
+  const ref = new Date(2026, 3, 17, 12, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
