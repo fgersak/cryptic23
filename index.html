@@ -425,6 +425,16 @@ const puzzles = [
       wordplay: "''yo', 'a opet', 'Dora', '@' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
       indicator: "'čuješ' - homofon indikator\n 'u žurbi' - anagram indiktor\n 'zaboravlja' - morat ćeš maknuti nešto od negdje"
     }
+  },
+  {
+    id: 23,
+    text: "Prvo Gera i Tomo čuvaju Nur koji igra posjed. (5)",
+    answer: "Grunt",
+    hints: {
+      definition: "'posjed' - rješenje će biti neki drugi naziv za posjed",
+      wordplay: "''Gera', 'Tomo', 'Nur' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'prvo' - početna slova nekih riječi\n 'koji igra' - anagram indiktor\n 'čuvaju' - morat ćeš obgrliti neku riječ nekim slovima"
+    }
   }
 ];
 
@@ -433,7 +443,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 7, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 6, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
