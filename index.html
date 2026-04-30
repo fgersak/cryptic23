@@ -415,15 +415,25 @@ const puzzles = [
       wordplay: "''klizanju' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
       indicator: "'prva trojka' - prva tri slova riječi, 'bježi' - neka će slova izaći iz neke riječi"
     }
+  },
+  {
+    id: 23,
+    text: "Oh Captain, my captain! Yo, čuješ? A opet dora u žurbi zaboravlja @.",
+    answer: "Joao Pedro",
+    hints: {
+      definition: "'Oh captain, my captain' - rješenje će biti nešto Ninino i Anino",
+      wordplay: "''yo', 'a opet', 'Dora', '@' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'čuješ' - homofon indikator\n 'u žurbi' - anagram indiktor\n 'zaboravlja' - morat ćeš maknuti nešto od negdje"
+    }
   }
 ];
 
 /* TIMER LOGIKA */
-const INTERVAL = 10 * 1000;
+const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 17, 12, 0, 0).getTime();
+  const ref = new Date(2026, 3, 7, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
