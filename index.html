@@ -417,7 +417,7 @@ const puzzles = [
     }
   },
   {
-    id: 23,
+    id: 24,
     text: "Oh captain, my captain! Yo, čuješ? A opet Dora u žurbi zaboravlja @.",
     answer: "Joao Pedro",
     hints: {
@@ -427,13 +427,23 @@ const puzzles = [
     }
   },
   {
-    id: 23,
+    id: 25,
     text: "Prvo Gera i Tomo čuvaju Nur koji igra posjed. (5)",
     answer: "Grunt",
     hints: {
       definition: "'posjed' - rješenje će biti neki drugi naziv za posjed",
       wordplay: "''Gera', 'Tomo', 'Nur' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
       indicator: "'prvo' - početna slova nekih riječi\n 'koji igra' - anagram indiktor\n 'čuvaju' - morat ćeš obgrliti neku riječ nekim slovima"
+    }
+  },
+  {
+    id: 26,
+    text: "Jala Brat pjeva pred mintom, vuče crtu i igra.",
+    answer: "Badminton",
+    hints: {
+      definition: "'igra' - rješenje će biti neki drugi naziv za posjed",
+      wordplay: "''Jala brat pjeva' - ovdje moraš zamijeniti frazu s nekom pjesmom Jale, 'mintom', 'crtu' - trebat ćete uzeti slova ove riječi ili njene zamjene te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'vuče' - nešto se mora maknuti iz riječi\n 'pred' - pozicijski indikator"
     }
   }
 ];
@@ -443,7 +453,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 6, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 5, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
