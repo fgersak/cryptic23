@@ -107,7 +107,7 @@ h1 {
   border-color: #49792d;
 }
 
-.box.puzzle33 {
+.puzzle.puzzle33 {
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -551,7 +551,15 @@ function loadPuzzle() {
   const data = getCurrentPuzzle();
   puzzleData = data.puzzle;
 
-  document.getElementById("puzzle").innerText = puzzleData.text;
+  const puzzleEl = document.getElementById("puzzle");
+
+  puzzleEl.innerText = puzzleData.text;
+  
+  puzzleEl.classList.remove("puzzle33");
+  
+  if (puzzleData.id === 33) {
+    puzzleEl.classList.add("puzzle33");
+  }
 
   createGrid(puzzleData.answer);
   startTimer(data.nextChange);
@@ -575,16 +583,12 @@ function createGrid(answer) {
 
     const input = document.createElement("input");
     input.className = "box";
-
-    if (puzzleData.id === 33) {
-      input.classList.add("puzzle33");
-    }
     input.maxLength = 1;
 
     input.addEventListener("input", (e) => {
       e.target.value = e.target.value.toUpperCase();
 
-      const boxes = document.querySelectorAll(".box");
+      const boxes = nt.querySelectorAll(".box");
       const index = Array.from(boxes).indexOf(input);
 
       if (index < boxes.length - 1) {
