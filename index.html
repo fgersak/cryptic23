@@ -107,7 +107,6 @@ h1 {
   border-color: #49792d;
 }
 
-
 button {
   margin: 6px;
   padding: 9px 14px;
@@ -518,7 +517,7 @@ const puzzles = [
     }
   },
   {
-    id: 33,
+    id: 32,
     text: "Španjolska - 0, Brazil - 1. (6)",
     answer: "Obrazi",
     hints: {
@@ -548,10 +547,7 @@ function loadPuzzle() {
   const data = getCurrentPuzzle();
   puzzleData = data.puzzle;
 
-  const puzzleEl = document.getElementById("puzzle");
-
-  puzzleEl.innerText = puzzleData.text;
-  
+  document.getElementById("puzzle").innerText = puzzleData.text;
 
   createGrid(puzzleData.answer);
   startTimer(data.nextChange);
@@ -580,7 +576,7 @@ function createGrid(answer) {
     input.addEventListener("input", (e) => {
       e.target.value = e.target.value.toUpperCase();
 
-      const boxes = nt.querySelectorAll(".box");
+      const boxes = document.querySelectorAll(".box");
       const index = Array.from(boxes).indexOf(input);
 
       if (index < boxes.length - 1) {
