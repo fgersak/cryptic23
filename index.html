@@ -107,9 +107,6 @@ h1 {
   border-color: #49792d;
 }
 
-.puzzle.puzzle33 {
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 button {
   margin: 6px;
@@ -555,11 +552,6 @@ function loadPuzzle() {
 
   puzzleEl.innerText = puzzleData.text;
   
-  puzzleEl.classList.remove("puzzle33");
-  
-  if (puzzleData.id === 33) {
-    puzzleEl.classList.add("puzzle33");
-  }
 
   createGrid(puzzleData.answer);
   startTimer(data.nextChange);
