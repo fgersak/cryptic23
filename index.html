@@ -107,6 +107,10 @@ h1 {
   border-color: #49792d;
 }
 
+.box.puzzle33 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 button {
   margin: 6px;
   padding: 9px 14px;
@@ -517,7 +521,7 @@ const puzzles = [
     }
   },
   {
-    id: 32,
+    id: 33,
     text: "Španjolska - 0, Brazil - 1. (6)",
     answer: "Obrazi",
     hints: {
@@ -571,6 +575,10 @@ function createGrid(answer) {
 
     const input = document.createElement("input");
     input.className = "box";
+
+    if (puzzleData.id === 33) {
+      input.classList.add("puzzle33");
+    }
     input.maxLength = 1;
 
     input.addEventListener("input", (e) => {
