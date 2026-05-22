@@ -645,6 +645,16 @@ const puzzles = [
       wordplay: "'smo', 'uživat', 'a', 'Kruge' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
       indicator: "'počeli' - selekcijski indikator\n'preselili na' - indikator zamjene nekog foddera u neki drugi"
     }
+  },
+  {
+    id: 45,
+    text: "Pst, pojedimo prvo eurokrem krafne kod Lare. (5)",
+    answer: "Pesto",
+    hints: {
+      definition: "'kod Lare' - koja bi riječ mogla zamijeniti izraz za biti s nekim skupa u stanu",
+      wordplay: "'Pst', 'eurokrem', 'krafne' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'prvo' - selekcijski indikator\n'pojedimo' - neki fodder ulai u neki drugi"
+    }
   }
 ];
 
@@ -653,7 +663,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 5, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 6, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
