@@ -655,6 +655,16 @@ const puzzles = [
       wordplay: "'Pst', 'eurokrem', 'krafne' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
       indicator: "'prvo' - selekcijski indikator\n'pojedimo' - neki fodder ulai u neki drugi"
     }
+  },
+  {
+    id: 47,
+    text: "Luđak Dino na kraju ne ide na Radićeve. Zira mu pravi društvo, ne spava. (6)",
+    answer: "Indira",
+    hints: {
+      definition: "'ide na Radićeve' - tko ide na radićeve ove godine, to jest nastupa",
+      wordplay: "'Dino', 'Zira', 'spava' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'na kraju' - selekcijski indikator\n'mu pravi društvo' - koristi se samo da se lakše zna koje su stvari fodder jer definicija nije na kraju ili početku rečenice ovaj put\n'ne ide, ne' - eliminacijski indikatori"
+    }
   }
 ];
 
@@ -663,7 +673,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 6, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 5, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
