@@ -665,6 +665,16 @@ const puzzles = [
       wordplay: "'Dino', 'Zira', 'spava' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
       indicator: "'na kraju' - selekcijski indikator\n'mu pravi društvo' - koristi se samo da se lakše zna koje su stvari fodder jer definicija nije na kraju ili početku rečenice ovaj put\n'ne ide, ne' - eliminacijski indikatori"
     }
+  },
+  {
+    id: 48,
+    text: "Na Krku kreće spektakl. Naši igraju u trku, al nemaju završnicu.(6)",
+    answer: "Strašnik",
+    hints: {
+      definition: "'na Krku' - rješenje će biti nešto tebi poznato na Krku",
+      wordplay: "'spektakl', 'Naši', 'trku' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'kreće' - selekcijski indikator\n'igraju' - anagram\n'al nemaju završnicu' - selekcijski eliminacijski indikator"
+    }
   }
 ];
 
@@ -673,7 +683,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 5, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 10, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
