@@ -709,12 +709,12 @@ const puzzles = [
   },
   {
     id: 53,
-    text: ". (6)",
-    answer: "",
+    text: "Nikad nismo bili tamo oko Primoštena. Izgubili smo se krenuvši na Bled, pa se vratili. (6)",
+    answer: "Padel",
     hints: {
-      definition: "'za Lily' - rješenje će biti neki nadimak/titula koja se Mariji zna nadjenuti",
-      wordplay: "'Snažna', 'bu' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
-      indicator: "'ušla' - jedan fodder ide u drugi"
+      definition: "'Nikad nismo bili tamo' - rješenje će biti neko mjesto gdje nikad nismo otisli a puno smo se puta dosjetili kako bi mogli",
+      wordplay: "'Primoštena', 'Bled' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'oko - uzeti slova koja okružuju riječ\n'izgubili se krenuvši na' - prvo slovo riječi se gubi\n'pa se vratili' - treba okrenuti riječ naopak"
     }
   }
 ];
@@ -724,7 +724,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 9, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 10, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
