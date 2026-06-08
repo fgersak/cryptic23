@@ -766,6 +766,16 @@ const puzzles = [
       wordplay: "'Aitch', 'a', 'tune', 'Sand' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
       indicator: "'uzimaš pola' - selektiraj pola riječi\n'bacaš' - anagram indikator"
     }
+  },
+  {
+    id: 59,
+    text: "Andrea says Ser Gio decapitated us. (7)",
+    answer: "Serious",
+    hints: {
+      definition: "'Amdrea says' - rješenje će biti nešto što Andrea govori",
+      wordplay: "'Ser', 'Gio', 'us' - trebat ćete uzeti slova ovih riječi ili njihovih zamjena te u skladu s indikatorima konstruirati odgovor",
+      indicator: "'decapitated' - indicira da treba mahnuti 'glavu' to jest prvo slovo riječi"
+    }
   }
 ];
 
@@ -774,7 +784,7 @@ const INTERVAL = 60 * 60 * 24 * 1000;
 
 function getCurrentPuzzle() {
   const now = Date.now();
-  const ref = new Date(2026, 3, 10, 0, 0, 0).getTime();
+  const ref = new Date(2026, 3, 11, 0, 0, 0).getTime();
 
   const index = Math.floor((now - ref) / INTERVAL) % puzzles.length;
 
